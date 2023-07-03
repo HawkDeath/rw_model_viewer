@@ -5,14 +5,33 @@
 #include <render/PhysicalDevice.h>
 
 #include <cstdint>
+#include <optional>
 #include <vector>
 #include <unordered_map>
 
 namespace rw {
 
-class Device {
-public:
-    Device(Window &window);
+  struct QueueFamilyIndices
+  {
+    std::optional<uint32_t> graphicsFamily;
+    std::optional<uint32_t> presentFamily;
+
+    bool isComplete() {
+      return graphicsFamily.has_value() && presentFamily.has_value();
+    }
+  };
+
+  struct SwapChainSupportDetails
+  {
+    VkSurfaceCapabilitiesKHR capabilities;
+
+    std::vector<VkSurfaceFormatKHR> formats;
+    std::vector<VkPresentModeKHR> presentModes;
+  };
+
+  class Device {
+  public:
+    Device(Window& window);
     ~Device();
 
     VkDevice getDevice() const { return mDevice; }
@@ -25,7 +44,16 @@ public:
     VkCommandBuffer beginSingleTimeCommand();
     void endSingleTimeCommand(VkCommandBuffer command);
 
-private:
+    VkFormat findSupportedFormat(const std::vector<VkFormat>& candidates, VkImageTiling tiling, VkFormatFeatureFlags features);
+    uint32_t findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
+
+    void createImageWithInfo(const VkImageCreateInfo& imageInfo, VkMemoryPropertyFlags properties, VkImage& image, VkDeviceMemory& imageMemory);
+    void createBuffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory);
+
+    QueueFamilyIndices findQueueFamilies();
+    SwapChainSupportDetails getSwapChainSupport();
+
+  private:
     void createInstance();
     void getPhysicalDevices();
     void pickPhysicalDevice();
@@ -34,17 +62,20 @@ private:
     void createLogicalDevice();
 
     std::vector<const char*> requiredExtensions();
-private:
-    Window &mWindow;
+
+  private:
+    Window& mWindow;
     VkInstance mInstance;
     PhysicalDevice mPhysicalDevice;
-    std::unordered_map<VkPhysicalDeviceType ,PhysicalDevice> gpus;
+    std::unordered_map<VkPhysicalDeviceType, PhysicalDevice> gpus;
     VkDevice mDevice;
     VkSurfaceKHR mSurface;
     VkCommandPool mCommandPool;
+
+    // queues
     VkQueue mGraphicsQueue;
     VkQueue mPresentQueue;
-};
+  };
 }
 
 #endif // DEVICE_H

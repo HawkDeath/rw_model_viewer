@@ -3,7 +3,9 @@
 #include <cstdint>
 
 namespace rw {
-PhysicalDevice::PhysicalDevice(VkPhysicalDevice physicalDevice) : mPhysicalDevice{physicalDevice} {
+PhysicalDevice::PhysicalDevice(VkPhysicalDevice physicalDevice)
+  : mPhysicalDevice{physicalDevice}
+{
     vkGetPhysicalDeviceFeatures(physicalDevice, &mFeatures);
     vkGetPhysicalDeviceProperties(physicalDevice, &mProperties);
     vkGetPhysicalDeviceMemoryProperties(physicalDevice, &mMemoryProperties);

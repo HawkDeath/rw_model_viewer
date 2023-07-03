@@ -9,8 +9,7 @@
 
 #define RT_THROW(...) throw std::runtime_error(__VA_ARGS__)
 
-#define VK_CHECK(x, msg) if ((x) != VK_SUCCESS) { RT_THROW(msg); }
-#define VK_CUSTOM_ALLOCATOR nullptr
+#define VK_CHECK(x, msg) do { auto res = (x); if (res != VK_SUCCESS) { RT_THROW(msg); } } while(0)
 
 #ifdef LOGGER_ENABLED
 #define LOG(...) do { spdlog::info(__VA_ARGS__); } while(0)

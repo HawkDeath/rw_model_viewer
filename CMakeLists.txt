@@ -15,6 +15,9 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/output/lib")
 # Vulkan API
 find_package(Vulkan REQUIRED FATAL_ERROR)
 find_package(Vulkan COMPONENTS glslc)
+if (${Vulkan_FOUND})
+    include_directories(${Vulkan_INCLUDE_DIR})
+endif()
 
 # glfw
 set(GLFW_BUILD_EXAMPLES OFF)

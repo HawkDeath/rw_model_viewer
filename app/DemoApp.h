@@ -4,8 +4,10 @@
 #include <Window.h>
 #include <render/Device.h>
 
-namespace app {
-class DemoApp {
+namespace app
+{
+class DemoApp
+{
 public:
     DemoApp(int argc, char **argv);
     ~DemoApp() = default;
