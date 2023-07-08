@@ -28,6 +28,6 @@ set(APP_HPP
 set(APP_SOURCES ${APP_SRC} ${APP_HPP} ${APP_RENDER_SRC} ${APP_RENDER_HPP})
 
 add_executable(rw_model_viewer main.cpp ${APP_SOURCES})
-target_link_libraries(rw_model_viewer PRIVATE glfw glm spdlog Vulkan::Vulkan imgui)
+target_link_libraries(rw_model_viewer PRIVATE glfw glm spdlog Vulkan::Vulkan imgui VulkanMemoryAllocator)
 target_include_directories(rw_model_viewer PRIVATE include)
 target_compile_definitions(rw_model_viewer PRIVATE -DLOGGER_ENABLED)

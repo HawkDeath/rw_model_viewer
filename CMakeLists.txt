@@ -26,7 +26,6 @@ set(GLFW_BUILD_DOCS OFF)
 set(GLFW_INSTALL OFF)
 add_subdirectory(deps/glfw)
 
-
 # imgui
 add_library(imgui INTERFACE)
 set(IMGUI_DIR ${CMAKE_CURRENT_SOURCE_DIR}/deps/imgui)
@@ -58,6 +57,10 @@ target_compile_definitions(glm INTERFACE
 if(NOT CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
      target_compile_definitions(glm INTERFACE GLM_FORCE_CXX14)
 endif()
+
+
+# VMA
+add_subdirectory(deps/VMA)
 
 add_subdirectory(deps/spdlog)
 
